@@ -1,4 +1,5 @@
 import json
+import os.path
 
 
 class MyAction:
@@ -15,9 +16,11 @@ class MyChoice:
     RETURN = '3'
 
 
-phone_book = {'Liza': '111'}
-with open('phone_book.json', 'w', encoding='UTF-8') as file:
-    json.dump(phone_book, file)
+if os.path.isfile('phone_book.json'):
+    with open('phone_book.json', 'r', encoding='UTF-8') as file:
+        phone_book = json.load(file)
+else:
+    phone_book = {}
 
 
 def get_name(object, value):
@@ -29,8 +32,6 @@ def get_name(object, value):
 action = ''
 
 while action != MyAction.EXIT:
-    with open('phone_book.json', encoding='UTF-8') as file:
-        phone_book = json.load(file)
     print(f'Menu: \n {MyAction.FIND}) Find number \n {MyAction.ADD}) Add number \n' 
           f' {MyAction.DELETE}) Delete number \n {MyAction.CHANGE}) Change number \n {MyAction.EXIT}) Exit')
     action = input('What do you want to do? ')
@@ -74,7 +75,7 @@ while action != MyAction.EXIT:
         if request == MyChoice.NUMBER:
             number = input('Enter the number: ')
             if number in phone_book.values():
-                name = get_name(phone_book,number)
+                name = get_name(phone_book, number)
                 phone_book.pop(name)
                 print('\n The contact has been deleted \n')
                 with open('phone_book.json', 'w', encoding='UTF-8') as file:
@@ -113,7 +114,7 @@ while action != MyAction.EXIT:
             name = input('Enter the name to be changed: ')
             new_name = input('Enter new name: ')
             if name in phone_book:
-                phone_book[new_name]= phone_book.pop(name)
+                phone_book[new_name] = phone_book.pop(name)
                 print(f'\n Name {name} was replaced by {new_name} \n')
                 with open('phone_book.json', 'w', encoding='UTF-8') as file:
                     json.dump(phone_book, file)
