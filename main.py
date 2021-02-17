@@ -62,8 +62,6 @@ while action != MyAction.EXIT:
         if name not in phone_book and number not in phone_book.values():
             phone_book[name] = number
             print('\n The contact has been added \n')
-            with open('phone_book.json', 'w', encoding='UTF-8') as file:
-                json.dump(phone_book, file)
         else:
             if name in phone_book:
                 print('\n Name already in use. Choose another one \n')
@@ -78,8 +76,6 @@ while action != MyAction.EXIT:
                 name = get_name(phone_book, number)
                 phone_book.pop(name)
                 print('\n The contact has been deleted \n')
-                with open('phone_book.json', 'w', encoding='UTF-8') as file:
-                    json.dump(phone_book, file)
             else:
                 print(f'\n There is no one with number:{number} \n')
         elif request == MyChoice.NAME:
@@ -87,8 +83,6 @@ while action != MyAction.EXIT:
             if name in phone_book:
                 phone_book.pop(name)
                 print('\n The contact has been deleted \n')
-                with open('phone_book.json', 'w', encoding='UTF-8') as file:
-                    json.dump(phone_book, file)
             else:
                 print(f'\n There is no one with name: {name} \n')
         elif request == MyChoice.RETURN:
@@ -106,8 +100,6 @@ while action != MyAction.EXIT:
             if number in phone_book.values():
                 phone_book[get_name(phone_book, number)] = new_number
                 print(f'\n Number {number} was replaced by {new_number} \n')
-                with open('phone_book.json', 'w', encoding='UTF-8') as file:
-                    json.dump(phone_book, file)
             else:
                 print(f'\n There is no one with number:{number} \n')
         elif request == MyChoice.NAME:
@@ -116,8 +108,6 @@ while action != MyAction.EXIT:
             if name in phone_book:
                 phone_book[new_name] = phone_book.pop(name)
                 print(f'\n Name {name} was replaced by {new_name} \n')
-                with open('phone_book.json', 'w', encoding='UTF-8') as file:
-                    json.dump(phone_book, file)
             else:
                 print(f'\n There is no one with name: {name} \n')
         elif request == MyChoice.RETURN:
@@ -125,5 +115,10 @@ while action != MyAction.EXIT:
         else:
             print('\n Incorrect request. Try again \n')
             continue
-    else:
+    elif action == MyAction.EXIT:
         print('\n Till we meet again, my friend!')
+        with open('phone_book.json', 'w', encoding='UTF-8') as file:
+            json.dump(phone_book, file)
+    else:
+        print('\n Incorrect request. Try again \n')
+        continue
